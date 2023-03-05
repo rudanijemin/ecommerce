@@ -1,10 +1,15 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Link } from "react-router-dom";
 import "./Navbar.scss";
 import {BsCart2} from 'react-icons/bs'
+import Cart from '../cart/Cart';
 
 function Navbar() {
+
+    const [openCart, setOpenCart] = useState(false);
+
   return (
+    <>
     <div className="Navbar">
     <div className="container nav-container">
         <div className="nav-left">
@@ -26,13 +31,18 @@ function Navbar() {
         </Link>
         </div>
         <div className="nav-right">
-            <div className="nav-cart hover-link">
+            <div className="nav-cart hover-link" onClick={()=>
+                setOpenCart(!openCart)
+            }>
                 <BsCart2 className="icon" />
                 <span className="cart-count center">99+</span>
             </div>
         </div>
     </div>
-</div>  )
+    </div>
+    { openCart && <Cart onClose={()=> setOpenCart(false)}/>}
+    </>  
+    )
 }
 
 export default Navbar

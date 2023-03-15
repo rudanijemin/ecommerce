@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Category from "../../components/category/Category";
 import Hero from "../../components/hero/Hero";
 import Product from "../../components/product/Product";
 import { axiosClient } from "../../utils/axiosClient";
 import "./Home.scss";
 function Home() {
-    const [categories, setCategories] = useState(null);
+    // const [categories, setCategories] = useState(null);
+    const categories = useSelector((state) => state.categoryReducer.categories);
+
     const [topProducts, setTopProducts] = useState(null);
 
     async function fetchData() {
@@ -17,7 +20,7 @@ function Home() {
         );
         console.log(topProductsResponse);
 
-        setCategories(categoryResponse.data.data);
+        // setCategories(categoryResponse.data.data);
         setTopProducts(topProductsResponse.data.data);
     }
 

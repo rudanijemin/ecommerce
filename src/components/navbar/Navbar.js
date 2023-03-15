@@ -3,10 +3,15 @@ import { Link } from "react-router-dom";
 import "./Navbar.scss";
 import {BsCart2} from 'react-icons/bs'
 import Cart from '../cart/Cart';
+import { useSelector } from "react-redux";
 
 function Navbar() {
 
     const [openCart, setOpenCart] = useState(false);
+    const categories = useSelector((state) => state.categoryReducer.categories);
+    const cart = useSelector(state => state.cartReducer.cart);
+    let totalItems = 0;
+    cart.forEach(item => totalItems += item.quantity);
 
   return (
     <>
@@ -14,7 +19,7 @@ function Navbar() {
     <div className="container nav-container">
         <div className="nav-left">
             <ul className="link-group">
-                <li className="hover-link">
+                {/* <li className="hover-link">
                     <Link className="link" to="/products?category=comic">Comics</Link>
                 </li>
                 <li className="hover-link">
@@ -22,7 +27,17 @@ function Navbar() {
                 </li>
                 <li className="hover-link">
                     <Link className="link" to="/products?category=sports">Sports</Link>
-                </li>
+                </li> */}
+                {categories?.map((category) => (
+                                <li className="hover-link" key={category.id}>
+                                    <Link
+                                        className="link"
+                                        to={`/category/${category.attributes.key}`}
+                                    >
+                                        {category.attributes.title}
+                                    </Link>
+                                </li>
+                            ))}
             </ul>
         </div>
         <div className="nav-center">
@@ -35,7 +50,7 @@ function Navbar() {
                 setOpenCart(!openCart)
             }>
                 <BsCart2 className="icon" />
-                <span className="cart-count center">99+</span>
+                {totalItems > 0 && <span className="cart-count center">{totalItems}</span>}
             </div>
         </div>
     </div>
